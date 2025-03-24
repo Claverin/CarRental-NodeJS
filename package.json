@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "node index.ts",
+    "dev": "dotenv -- nodemon"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.13",
+    "dotenv-cli": "^8.0.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2"
+  }
+}
