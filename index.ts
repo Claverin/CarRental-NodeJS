@@ -42,6 +42,16 @@ app.get('/api/products', async(req: Request, res: Response) => {
   }
 })
 
+app.get('/api/product/:id', async(req: Request, res: Response) => {
+  try{
+    const product = await Product.findById(req.params.id);
+    res.status(200).json(product);
+  }catch (error){
+    console.error('Error fetching product:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+})
+
 app.post('/api/products', async(req: Request, res: Response) => {
   try{
     const product = await Product.create(req.body);
