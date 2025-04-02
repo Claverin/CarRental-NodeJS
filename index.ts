@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 import mongoose from 'mongoose';
-import Product from './src/model/product.model';
+import mainRoute from './src/routes/main.route';
+import productRoute from './src/routes/product.route';
 
 // Load environment variables
 dotenv.config();
@@ -32,42 +33,10 @@ mongoose
 // Middleware for parsing JSON (optional, if needed)
 app.use(express.json());
 
-app.get('/api/products', async(req: Request, res: Response) => {
-  try{
-    const products = await Product.find({});
-    res.status(200).json(products);
-  } catch (error){
-    console.error('Error fetching products:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-})
+// Routes
+app.use('*', mainRoute);
+app.use('/api/products', productRoute);
 
-app.get('/api/product/:id', async(req: Request, res: Response) => {
-  try{
-    const product = await Product.findById(req.params.id);
-    res.status(200).json(product);
-  }catch (error){
-    console.error('Error fetching product:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-})
-
-app.post('/api/products', async(req: Request, res: Response) => {
-  try{
-    const product = await Product.create(req.body);
-    res.status(201).json({ message: 'Product created successfully' });
-  } catch (error){
-    console.error('Error creating product:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-})
-
-// Handle 404 errors
-app.all('*', (req: Request, res: Response) => {
-  console.log('Received request:', req.method, req.url);
-  console.log('Request body:', req.body);
-  res.status(404).send('<h1>Resource not found</h1>');
-});
 // Start the server
 app.listen(parseInt(portEnv, 10), () => {
   console.log(`Server is running on port ${portEnv}`);
