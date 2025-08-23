@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
-import mainRoute from './src/routes/main.route';
-import productRoute from './src/routes/product.route';
+import mainRoute from './routes/main.route';
+import productRoute from './routes/product.route';
 
 // Load environment variables
 dotenv.config();
